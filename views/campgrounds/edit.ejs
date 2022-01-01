@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
+<% layout('layout/boilerplate') %>
        
         <form action="/campgrounds/<%=foundCamp._id%>?_method=PUT" method="post">
             <div>
@@ -26,8 +12,39 @@
             <button>Update Campground</button>
         </form>
 
-        <a href="/campgrounds/<%=foundCamp._id%>">Back To Campground</a>
         
-        <script src="" async defer></script>
-    </body>
-</html>
+        <div class="row">
+            <h1 class="text-center">New Campground</h1>
+            <div class="col-6 offset-3">
+                <form action="/campgrounds/<%=foundCamp._id%>?_method=PUT" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="title">Title</label>
+                        <input class="form-control" type="text" id="title" name="campground[title]" value="<%=foundCamp.title%>">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="price-label">$</span>
+                            <input type="text" class="form-control" id="price" aria-label="Amount (to the nearest dollar)" name="campground[price]" value="<%=foundCamp.price%>">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label" for="location">Location</label>
+                        <input class="form-control" type="text" id="location" name="campground[location]" value="<%=foundCamp.location%>">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="image">Image URL</label>
+                        <input class="form-control" type="text" id="image" name="campground[image]" value="<%=foundCamp.image%>">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" type="text" id="description" name="campground[description]"><%=foundCamp.description%></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-info">Update</button>
+                    </div>
+                </form>
+                <a href="/campgrounds/<%=foundCamp._id%>">Back To Campground</a>
+            </div>
+        </div>

@@ -1,32 +1,27 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Campgrounds</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-       <h1>Welcome to <%=foundCamp.title%></h1>
-       <h2>Located in <%=foundCamp.location%></h2>
-       <a href="/campgrounds/<%=foundCamp._id%>/edit">Edit</a>
+<% layout('layout/boilerplate') %>
 
-       <div>
-           <form action="/campgrounds/<%=foundCamp._id%>/?_method=DELETE" method="post">
-                <button>Delete</button>
-           </form>
-       </div>
-
-       <footer>
-            <a href="/campgrounds">All Campgrounds</a>
-       </footer>
-        
-        <script src="" async defer></script>
-    </body>
-</html>
+<div class="row">
+     <div class="col-6 offset-3">
+          <div class="card mb-3">
+               <img src="<%= foundCamp.image %>" class="card-img-top" alt="...">
+               <div class="card-body">
+                 <h5 class="card-title"><%=foundCamp.title%></h5>
+                 <p class="card-text"><%= foundCamp.description %></p>
+               </div>
+               <ul class="list-group list-group-flush">
+                 <li class="list-group-item"><%=foundCamp.location%></li>
+                 <li class="list-group-item">$<%=foundCamp.price%>/Night</li>
+                 <li class="list-group-item">A third item</li>
+               </ul>
+               <div class="card-body">
+                    <a href="/campgrounds/<%=foundCamp._id%>/edit" class="card-link btn btn-info">Edit</a>
+                    <form class="d-inline" action="/campgrounds/<%= foundCamp._id %>/?_method=DELETE" method="post">
+                         <button class="btn btn-danger">Delete</button>
+                    </form>
+               </div>
+               <div class="card-footer text-muted">
+                    2 days ago
+               </div>
+          </div> 
+     </div>
+</div>
