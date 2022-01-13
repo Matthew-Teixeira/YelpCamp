@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Campground = require('../models/campground');
 const { campgroundSchema} = require('../schemas.js');
+const {isLoggedIn} = require('../middleware');
 
 const validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body)
@@ -23,12 +24,12 @@ router.get("/", catchAsync(async (req, res) => {
 }))
 
 //Route to add form
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render('campgrounds/new')
 })
 
 //Post new campground
-router.post("/", validateCampground, catchAsync(async (req, res, next) => {
+router.post("/", isLoggedIn, validateCampground, catchAsync(async (req, res, next) => {
     //if(!req.body.campground) throw new ExpressError('Invalid campground data', 400) 
     //we throw the error here bc we are in catAsync(), which will hand it off to next() 
     const camp = new Campground(req.body.campground);
@@ -50,7 +51,7 @@ router.get("/:id", catchAsync(async (req, res) => {
 }))
 
 //edit
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const foundCamp = await Campground.findById(id);
     if(!foundCamp){
@@ -61,14 +62,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 }))
 
 //edit put
-router.put('/:id', validateCampground, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findByIdAndUpdate(id, { ...req.body.campground })//campgrounds is an object. Using spread to open it up
     req.flash('success', "Successfully updated campground!")
     res.redirect(`/campgrounds/${camp._id}`);
 }))
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findByIdAndDelete(id);
     req.flash('success', "Successfully deleted campground!")
