@@ -16,17 +16,20 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-const monoSanitize = require('express-mongo-sanitize');
-const helmet = require('helmet');
+const monoSanitize = require('express-mongo-sanitize'); 
+//const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
 
 
 const campgroundRoutes = require('./routes/campgrounds.js');
 const reviewRoutes = require('./routes/reviews.js');
 const userRoutes = require('./routes/users.js');
 
+//'mongodb://localhost:27017/yelp-camp' 
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp') 
-    .then(() => {
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
+mongoose.connect(dbUrl) 
+    .then(() => { 
         console.log("Mongo Connection Open")
     })
     .catch((e) => {
@@ -38,9 +41,23 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+const secret = process.env.SECRET || "words"
+const store = new MongoStore({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: secret
+    }
+}) 
+
+store.on('error', function (e) {
+    console.log('SESSION STORE ERROR', e)
+})
+
 const sessionConfig = {
-    name: 'apollonet',
-    secret: 'words',
+    store: store,
+    name: 'session',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
         cookie: {
@@ -97,4 +114,4 @@ app.use((err, req, res, next) => {
 
 app.listen(3000, () => {
     console.log("Serving on port 3000");
-})
+}) 
