@@ -1,42 +1,45 @@
 <% layout('layout/boilerplate') %>
 
 <div class="row">
-    <h1 class="text-center">New Campground</h1>
-    <div class="col-6 offset-3">
-        <form action="/campgrounds" method="post" novalidate class="validated-form" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="campground[title]" required>
-                <div class="valid-feedback">Looks Good</div>
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 class="card-title text-center">Add A Campground</h2>
+                <form action="/campgrounds" method="post" novalidate class="validated-form" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label" for="title">Title</label>
+                        <input class="form-control" type="text" id="title" name="campground[title]" required>
+                        <div class="valid-feedback">Looks Good</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="price-label">$</span>
+                            <input type="text" class="form-control" id="price" aria-label="Amount (to the nearest dollar)" name="campground[price]" required>
+                            <div class="valid-feedback">Looks Good</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label" for="location">Location</label>
+                        <input class="form-control" type="text" id="location" name="campground[location]" required>
+                        <div class="valid-feedback">Looks Good</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
+                        <div class="valid-feedback">Looks Good</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload Images</label>
+                        <input class="form-control" type="file" id="IMAGE" name="image" multiple>
+                      </div>
+                    <!-- <input type="file" name="image" id="" multiple> -->
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-success">Add Campground</button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="price">Price</label>
-                <div class="input-group">
-                    <span class="input-group-text" id="price-label">$</span>
-                    <input type="text" class="form-control" id="price" aria-label="Amount (to the nearest dollar)" name="campground[price]" required>
-                    <div class="valid-feedback">Looks Good</div>
-                </div>
-            </div>
-            
-            <div class="mb-3">
-                <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="campground[location]" required>
-                <div class="valid-feedback">Looks Good</div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
-                <div class="valid-feedback">Looks Good</div>
-            </div>
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Upload Images</label>
-                <input class="form-control" type="file" id="IMAGE" name="image" multiple>
-              </div>
-            <!-- <input type="file" name="image" id="" multiple> -->
-            <div class="mb-3">
-                <button class="btn btn-success">Add Campground</button>
-            </div>
-        </form>
-        <a href="/campgrounds">All Campgrounds</a>
+        </div>
     </div>
 </div>

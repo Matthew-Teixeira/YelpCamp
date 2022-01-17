@@ -1,6 +1,8 @@
-if(process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
-}
+// if(process.env.NODE_ENV !== "production") {
+//     require('dotenv').config();
+// }
+
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
@@ -14,6 +16,8 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const monoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 
 const campgroundRoutes = require('./routes/campgrounds.js');
@@ -35,17 +39,22 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const sessionConfig = {
+    name: 'apollonet',
     secret: 'words',
     resave: false,
     saveUninitialized: true,
         cookie: {
             httpOnly: true,
+            //secure: true,
             expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
             maxAge: 1000 * 60 * 60 * 24 * 7
         }
 }
 app.use(session(sessionConfig));
 app.use(flash());
+//app.use(helmet());
+
+app.use(monoSanitize());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -55,6 +64,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
